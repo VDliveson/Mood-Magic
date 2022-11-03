@@ -36,11 +36,19 @@
 
   </head>
   <body>
+    <div class="alert success" style="display:none;">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';" >&times;</span>
+      User mood updated successfully
+    </div> 
+    <div class="alert" style="display:none;">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';" >&times;</span>
+      Unable to set user mood
+    </div> 
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!-- CHAT BAR BLOCK -->
     <div class="chat-bar-collapsible">
-      <button id="chat-button" type="button" class="collapsible">Aao Baatein Kare
+      <button id="chat-button" type="button" class="collapsible">Hey there user!
           <i id="chat-icon" style="color: #fff;" class="fa fa-fw fa-comments-o"></i>
       </button>
 

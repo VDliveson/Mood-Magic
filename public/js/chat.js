@@ -68,7 +68,7 @@ async function getHardResponse(userText) {
 
   displayBotResponse(ans);
   console.log(ans);
-  if (!preset) {
+  if (!preset && count < eval_qs.length) {
     displayBotResponse(eval_qs[count]);
     count += 1;
   }

@@ -4,8 +4,7 @@
 let url = "http://127.0.0.1:8000/";
 
 let auth_token = null;
-console.log(axios)
-console.log('lund');
+
 prev = -1;
 
 const utterances = [
@@ -17,8 +16,6 @@ const utterances = [
 ];
 
 let decoded_token = null;
-
-
 
 const answers = [
   [
@@ -43,7 +40,7 @@ response_list = [
   "Alright, I understand",
   "Ok, I get you",
   "I think like you",
-  "I definitely belive you",
+  "I definitely believe you",
 ];
 
 let emotion_list = [];
@@ -61,8 +58,6 @@ let emotion_list = [];
       password: "abcd",
     },
   });
-
-
 
   let token_go = await (token_data && token_data.status === 200);
   let access_token = null;
@@ -141,7 +136,7 @@ async function getBotResponse(input) {
     return { preset, ans };
   } else if (input == "goodbye") {
     kill_chatbot();
-    return null;
+    return { preset: null, ans: null };
   }
   preset = false;
   emotion = await post_emotion(input);
@@ -185,29 +180,47 @@ function check_full_list() {
     console.log(total);
     total = total / 5;
 
-    kill_chatbot();
+    
 
     mood = null;
-    if (-2 <= total < -1) {
+    if (-2 <= total && total < -1) {
       mood = "angry";
-    } else if (-1 <= total < -0.2) {
+    } else if (-1 <= total && total < -0.2) {
       mood = "sad";
-    } else if (-0.2 <= total < 0.2) {
+    } else if (-0.2 <= total && total < 0.2) {
       mood = "neutral";
-    } else if (0.2 <= total < 1) {
+    } else if (0.2 <= total && total < 1) {
       mood = "happiness";
-    } else if (1 <= total < 2) {
+    } else if (1 <= total && total < 2) {
       mood = "love";
     }
 
-    let moodmessage = "<h1>Your final score is : " + mood + "</h1>";
-    $("body").append(moodmessage);
+    
+    let moodmessage = get_mood_emoji(mood) + " " + mood;
     set_emotion(mood);
+    displayBotResponse(moodmessage);
+    setTimeout(()=>{
+      kill_chatbot();
+    },3000);
+    
   }
 }
 
+function get_mood_emoji(mood) {
+  if (mood == "angry") {
+    return "😡";
+  } else if (mood == "sad") {
+    return "🥺";
+  } else if (mood == "neutral") {
+    return "😐";
+  } else if (mood == "happiness") {
+    return "😀";
+  } else if (mood == "love") {
+    return "🥰";
+  }
+}
 async function set_emotion(mood) {
-  let user_id = decoded_token["user_id"]
+  let user_id = decoded_token["user_id"];
   let options = {
     method: "post",
     url: url + "mood",
@@ -225,16 +238,45 @@ async function set_emotion(mood) {
   let response = await axios(options);
 
   try {
-    let responseOK = await (response && response.status === 200);
+    let responseOK = await (response && response.status === 201);
 
     if (responseOK) {
       console.log("Mood updated");
+      showAlert(true);
     }
   } catch (err) {
+    showAlert(false);
     console.error("Unable to update mood");
   }
 }
 
 function kill_chatbot() {
-  $(".chat-bar-collapsible").remove();
+  $(".chat-bar-collapsible").css("display", "none");
+}
+
+function showAlert(success) {
+  if (success) {
+    $(".alert.success").show();
+  } else {
+    $(".alert").css("display") == "none";
+  }
+}
+var close = document.getElementsByClassName("closebtn");
+var i;
+
+// Loop through all close buttons
+for (i = 0; i < close.length; i++) {
+  // When someone clicks on a close button
+  close[i].onclick = function () {
+    // Get the parent of <span class="closebtn"> (<div class="alert">)
+    var div = this.parentElement;
+
+    // Set the opacity of div to 0 (transparent)
+    div.style.opacity = "0";
+
+    // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
+    setTimeout(function () {
+      div.style.display = "none";
+    }, 600);
+  };
 }
