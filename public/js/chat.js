@@ -1,19 +1,33 @@
 // Collapsible
-var coll = document.getElementsByClassName("collapsible");
+function collapse() {
+  var coll = document.getElementsByClassName("collapsible");
 
-for (let i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function () {
-    this.classList.toggle("active");
+  coll[0].classList.toggle("active");
 
-    var content = this.nextElementSibling;
+  var content = coll[0].nextElementSibling;
 
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    }
-  });
+  if (content.style.maxHeight) {
+    content.style.maxHeight = null;
+  } else {
+    content.style.maxHeight = content.scrollHeight + "px";
+  }
 }
+
+// var coll = document.getElementsByClassName("collapsible");
+
+// for (let i = 0; i < coll.length; i++) {
+//   coll[i].addEventListener("click", function () {
+//     this.classList.toggle("active");
+
+//     var content = this.nextElementSibling;
+
+//     if (content.style.maxHeight) {
+//       content.style.maxHeight = null;
+//     } else {
+//       content.style.maxHeight = content.scrollHeight + "px";
+//     }
+//   });
+// }
 
 function getTime() {
   let today = new Date();
@@ -36,7 +50,7 @@ eval_qs = [
   "How do you feel your day is going today ?",
   "What do you think about movies ?",
   "What best describes the emotion you feel towards life in general?",
-  "Alright, and what do you feel about stress in college",
+  "What do you feel about stress in college",
 ];
 
 // Gets the first message
@@ -67,13 +81,15 @@ async function getHardResponse(userText) {
   $("#textInput").prop("disabled", false);
 
   displayBotResponse(ans);
-  console.log(ans);
+
   if (!preset && count < eval_qs.length) {
-    displayBotResponse(eval_qs[count]);
-    count += 1;
+    setTimeout(() => {
+      displayBotResponse(eval_qs[count]);
+      count += 1;
+    }, 3000);
   }
 
-  // document.getElementById("chat-bar-bottom").scrollIntoView(true);
+  document.getElementById("chat-bar-bottom").scrollIntoView(true);
 }
 
 //Gets the text input from the input box and processes it

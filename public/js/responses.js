@@ -141,8 +141,9 @@ async function getBotResponse(input) {
   preset = false;
   emotion = await post_emotion(input);
   if (emotion != null) {
-    get_final_emotion(emotion);
-    check_full_list();
+    // get_final_emotion(emotion);
+    check_full_list(emotion);
+
     ind = (Math.random() * response_list.length) | 0;
     while (response_list[ind] == response_list[prev]) {
       ind = (Math.random() * response_list.length) | 0;
@@ -153,47 +154,47 @@ async function getBotResponse(input) {
   }
 }
 
-function get_final_emotion(current_emotion) {
-  if (
-    ["happiness", "enthusiasm", "fun", "relief", "surprise"].includes(
-      current_emotion
-    )
-  ) {
-    emotion_list.push(1);
-  } else if (["sadness", "worry", "hate"].includes(current_emotion)) {
-    emotion_list.push(-1);
-  } else if (["love"].includes(current_emotion)) {
-    emotion_list.push(2);
-  } else if (["anger", "hate"].includes(current_emotion)) {
-    emotion_list.push(-2);
-  } else {
-    emotion_list.push(0);
-  }
-}
+// function get_final_emotion(current_emotion) {
+//   if (
+//     ["happiness", "enthusiasm", "fun", "relief", "surprise"].includes(
+//       current_emotion
+//     )
+//   ) {
+//     emotion_list.push(1);
+//   } else if (["sadness", "worry", "hate"].includes(current_emotion)) {
+//     emotion_list.push(-1);
+//   } else if (["love"].includes(current_emotion)) {
+//     emotion_list.push(2);
+//   } else if (["anger", "hate"].includes(current_emotion)) {
+//     emotion_list.push(-2);
+//   } else {
+//     emotion_list.push(0);
+//   }
+// }
 
-function check_full_list() {
-  if (emotion_list.length == 5) {
-    var total = 0;
-    for (var i in emotion_list) {
-      total += emotion_list[i];
-    }
-    console.log(total);
-    total = total / 5;
+function check_full_list(mood) {
+  // if (emotion_list.length == 5) {
+  //   var total = 0;
+  //   for (var i in emotion_list) {
+  //     total += emotion_list[i];
+  //   }
+  //   console.log(total);
+  //   total = total / 5;
 
     
 
-    mood = null;
-    if (-2 <= total && total < -1) {
-      mood = "angry";
-    } else if (-1 <= total && total < -0.2) {
-      mood = "sad";
-    } else if (-0.2 <= total && total < 0.2) {
-      mood = "neutral";
-    } else if (0.2 <= total && total < 1) {
-      mood = "happiness";
-    } else if (1 <= total && total < 2) {
-      mood = "love";
-    }
+  //   mood = null;
+  //   if (-2 <= total && total < -1) {
+  //     mood = "angry";
+  //   } else if (-1 <= total && total < -0.2) {
+  //     mood = "sad";
+  //   } else if (-0.2 <= total && total < 0.2) {
+  //     mood = "neutral";
+  //   } else if (0.2 <= total && total < 1) {
+  //     mood = "happiness";
+  //   } else if (1 <= total && total < 2) {
+  //     mood = "love";
+  //   }
 
     
     let moodmessage = get_mood_emoji(mood) + " " + mood;
@@ -203,7 +204,7 @@ function check_full_list() {
       kill_chatbot();
     },3000);
     
-  }
+  // }
 }
 
 function get_mood_emoji(mood) {
@@ -251,7 +252,7 @@ async function set_emotion(mood) {
 }
 
 function kill_chatbot() {
-  $(".chat-bar-collapsible").css("display", "none");
+  collapse();
 }
 
 function showAlert(success) {
