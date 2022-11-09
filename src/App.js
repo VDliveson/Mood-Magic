@@ -4,7 +4,8 @@ import styled from "styled-components";
 import MovieComponent from "./components/MovieComponent";
 import MovieInfoComponent from "./components/MovieInfoComponent";
 
-export const API_KEY = "47a4d46d";
+// export const API_KEY = "47a4d46d";
+export const API_KEY = "3112db6508f38d836229cb436cfd8e12";
 
 const Container = styled.div`
   display: flex;
@@ -77,10 +78,13 @@ function App() {
   const [timeoutId, updateTimeoutId] = useState();
 
   const fetchData = async (searchString) => {
+    
     const response = await Axios.get(
-      `https://www.omdbapi.com/?s=${searchString}&apikey=${API_KEY}`,
+      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=true&query=${searchString}`
+      // `https://www.omdbapi.com/?s=${searchString}&apikey=${API_KEY}`,
     );
-    updateMovieList(response.data.Search);
+    // updateMovieList(response.data.Search);
+    updateMovieList(response.data.results);
   };
 
   const onTextChange = (e) => {
