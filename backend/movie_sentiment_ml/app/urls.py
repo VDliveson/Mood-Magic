@@ -28,6 +28,8 @@ urlpatterns = [
     path('login/refresh', TokenRefreshView.as_view(), name='login_refresh'),
   
     path('mood',set_mood, name='set_mood'),
-    path('mood/<int:pk>/',get_mood,name='get_mood')
+    path('mood/<int:pk>/',get_mood,name='get_mood'),
+    # path('get_movie/<int:pk>/',get_movie,name='get_movie'),
+    path('recommend', views.RelatedMoviePredictorView.as_view(), name='get_recommendations'),
     # path('get_mood',views.GetUserMood.as_view(), name='get_mood'),
 ]

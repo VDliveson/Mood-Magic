@@ -4,6 +4,7 @@ from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from .emotion import get_emotion_from_text
+from .movie_recommend import get_recommendations
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import UserMoodService, RegisterUserSerializer
@@ -17,6 +18,7 @@ from rest_framework.reverse import reverse
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
 from .serializers import MyTokenObtainPairSerializer
+
 
 
 # Create your views here.
@@ -33,6 +35,7 @@ class ApiRoot(generics.GenericAPIView):
             'login/refresh': reverse('login_refresh',request = request),
             'mood': reverse('set_mood', request= request),
             'mood/<int:pk>': reverse('get_mood',kwargs={"pk": 2},request = request),
+            'recommend':reverse('get_recommendations',request = request),
             })    
         
     
@@ -127,3 +130,26 @@ class MyObtainTokenPairView(TokenObtainPairView):
     
     
     
+# class SentimentPredictorView(viewsets.ModelViewSet):
+#     permission_classes = [IsAuthenticated]
+#     def get(self, request, *args, **kwargs):
+#         user = UserMood.objects.filter(user_id=user_id).first()
+        
+class RelatedMoviePredictorView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('Recommender')
+    
+    def post(self, request, *args, **kwargs):
+
+        movie = JSONParser().parse(request)['movie']
+        if(movie == ''):
+            return JsonResponse(data = '',status = status.HTTP_404_NOT_FOUND,safe = False)
+        try:
+            movies = get_recommendations(movie)
+            data = {'recommendations':movies}
+            return JsonResponse(data,status = status.HTTP_200_OK,safe = False)
+        except:
+            return JsonResponse(data = '',status = status.HTTP_400_BAD_REQUEST,safe = False)
+        
+        

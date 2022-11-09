@@ -80,4 +80,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
     
     
-    
+# class MovieRecommendationSerializer(serializers.ModelSerializer):
+#     user_id = serializers.PrimaryKeyRelatedField(many = False,queryset = AppUser.objects.all())
+#     class Meta:
+#         model = UserMood
+#         fields = ['user_id','mood_id','current_mood']
