@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { API_KEY } from "../App";
+
 import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
+  margin-top: 100px;
   flex-direction: row;
   padding: 20px 30px;
   justify-content: center;
@@ -22,7 +26,7 @@ const InfoColumn = styled.div`
 const MovieName = styled.span`
   font-size: 22px;
   font-weight: 600;
-  color: black;
+  color: white;
   margin: 15px 0;
   white-space: nowrap;
   overflow: hidden;
@@ -35,7 +39,7 @@ const MovieName = styled.span`
 const MovieInfo = styled.span`
   font-size: 16px;
   font-weight: 500;
-  color: black;
+  color: white;
   overflow: hidden;
   margin: 4px 0;
   text-transform: capitalize;
@@ -47,8 +51,7 @@ const MovieInfo = styled.span`
 const Close = styled.span`
   font-size: 16px;
   font-weight: 600;
-  color: black;
-  background: lightgray;
+  color: white;
   height: fit-content;
   padding: 8px;
   border-radius: 40%;
@@ -75,7 +78,7 @@ function list_genre(genre_list) {
 }
 
 function get_top_actors(cast) {
-  let ans = ""
+  let ans = "";
   for (let i = 0; i < 5; i++) {
     if (i === 4) {
       ans += cast[i].name;
@@ -93,15 +96,50 @@ const MovieInfoComponent = (props) => {
 
   useEffect(() => {
     Axios.get(
-      // `https://www.omdbapi.com/?i=${selectedMovie}&apikey=${API_KEY}`,
       `https://api.themoviedb.org/3/movie/${selectedMovie}?api_key=${API_KEY}`
-    ).then((response) => setMovieInfo(response.data));
+    )
+      .then((response) => setMovieInfo(response.data))
+      .catch((err) => console.log(err));
 
     Axios.get(
-      // `https://www.omdbapi.com/?i=${selectedMovie}&apikey=${API_KEY}`,
       `https://api.themoviedb.org/3/movie/${selectedMovie}/credits?api_key=${API_KEY}`
-    ).then((response) => setMovieCredits(response.data));
+    )
+      .then((response) => setMovieCredits(response.data))
+      .catch((err) => console.log(err));
   }, [selectedMovie]);
+
+  // useEffect(() => {
+  //   let options = {
+  //     method: "post",
+  //     url: url + "recommend",
+  //     headers: {
+  //       Authorization: "Bearer " + auth_token,
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //     data: {
+  //       movie: movieInfo?.title,
+  //     },
+  //   };
+
+  //   if(movieInfo?.title){
+  //     Axios(options).then((response) =>{
+  //       let ids = response.data.recommendations;
+  //       let rec = [];
+  //       ids.map((id, index) => {
+  //         Axios.get(
+  //           `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+  //         )
+  //           .then((response) => {
+  //             rec.push(response.data);
+  //           })
+  //           .catch((err) => console.log("cant find resource"));
+  //       });
+  //       props.getRecom(rec)
+  //       console.log(rec)
+  //     });
+  //   }
+  // }, [movieInfo]);
 
   return (
     <Container>
@@ -177,7 +215,14 @@ const MovieInfoComponent = (props) => {
               Plot: <span>{movieInfo?.Plot}</span>
             </MovieInfo> */}
           </InfoColumn>
-          <Close onClick={() => props.onMovieSelect()}>X</Close>
+          <Close
+            onClick={() => {
+              props.onMovieSelect();
+              props.getRecom([])
+            }}
+          >
+            X
+          </Close>
         </>
       ) : (
         "Loading..."

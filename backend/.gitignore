@@ -11,7 +11,9 @@ db.sqlite3
 db.sqlite3-journal
 media
 data/
+*.npy
 
+tempCodeRunnerFile.py
 movie_sentiment_ml/assets
 
 tempCodeRunnerFile.py

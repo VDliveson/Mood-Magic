@@ -140,6 +140,7 @@ async function getBotResponse(input) {
   }
   preset = false;
   emotion = await post_emotion(input);
+  emotion = simplify_emotion(emotion);
   if (emotion != null) {
     // get_final_emotion(emotion);
     check_full_list(emotion);
@@ -155,21 +156,21 @@ async function getBotResponse(input) {
 }
 
 // function get_final_emotion(current_emotion) {
-//   if (
-//     ["happiness", "enthusiasm", "fun", "relief", "surprise"].includes(
-//       current_emotion
-//     )
-//   ) {
-//     emotion_list.push(1);
-//   } else if (["sadness", "worry", "hate"].includes(current_emotion)) {
-//     emotion_list.push(-1);
-//   } else if (["love"].includes(current_emotion)) {
-//     emotion_list.push(2);
-//   } else if (["anger", "hate"].includes(current_emotion)) {
-//     emotion_list.push(-2);
-//   } else {
-//     emotion_list.push(0);
-//   }
+// if (
+//   ["happiness", "enthusiasm", "fun", "relief", "surprise"].includes(
+//     current_emotion
+//   )
+// ) {
+//   emotion_list.push(1);
+// } else if (["sadness", "worry", "hate"].includes(current_emotion)) {
+//   emotion_list.push(-1);
+// } else if (["love"].includes(current_emotion)) {
+//   emotion_list.push(2);
+// } else if (["anger", "hate"].includes(current_emotion)) {
+//   emotion_list.push(-2);
+// } else {
+//   emotion_list.push(0);
+// }
 // }
 
 function check_full_list(mood) {
@@ -180,8 +181,6 @@ function check_full_list(mood) {
   //   }
   //   console.log(total);
   //   total = total / 5;
-
-    
 
   //   mood = null;
   //   if (-2 <= total && total < -1) {
@@ -196,21 +195,36 @@ function check_full_list(mood) {
   //     mood = "love";
   //   }
 
-    
-    let moodmessage = get_mood_emoji(mood) + " " + mood;
-    set_emotion(mood);
-    displayBotResponse(moodmessage);
-    setTimeout(()=>{
-      kill_chatbot();
-    },3000);
-    
+  let moodmessage = get_mood_emoji(mood) + " " + mood;
+  set_emotion(mood);
+  displayBotResponse(moodmessage);
+  setTimeout(() => {
+    kill_chatbot();
+  }, 3000);
+
   // }
 }
 
+function simplify_emotion(mood) {
+  if (["happiness", "enthusiasm", "fun", "relief", "surprise"].includes(mood)) {
+    return "happiness";
+  } else if (["sadness", "worry", "hate"].includes(mood)) {
+    return "sadness";
+  } else if (["love"].includes(mood)) {
+    return "love";
+  } else if (["anger", "hate"].includes(mood)) {
+    return "anger";
+  } else if(["neutral"].includes(mood)) {
+    return "neutral";
+  }else {
+    return null;
+  }
+}
+
 function get_mood_emoji(mood) {
-  if (mood == "angry") {
+  if (mood == "anger") {
     return "😡";
-  } else if (mood == "sad") {
+  } else if (mood == "sadness") {
     return "🥺";
   } else if (mood == "neutral") {
     return "😐";
