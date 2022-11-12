@@ -31,5 +31,6 @@ urlpatterns = [
     path('mood/<int:pk>/',get_mood,name='get_mood'),
     # path('get_movie/<int:pk>/',get_movie,name='get_movie'),
     path('recommend', views.RelatedMoviePredictorView.as_view(), name='get_recommendations'),
+    path('sentiment_recommend',views.SentimentPredictorView.as_view(), name='sentiment_recommend'),
     # path('get_mood',views.GetUserMood.as_view(), name='get_mood'),
 ]
