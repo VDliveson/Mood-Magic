@@ -65,7 +65,6 @@ let emotion_list = [];
   if (token_go) {
     access_token = token_data.data["access"];
     auth_token = access_token;
-    decoded_token = parseJwt(auth_token);
   }
 })();
 

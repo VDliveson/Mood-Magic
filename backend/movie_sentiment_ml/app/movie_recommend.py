@@ -13,11 +13,13 @@ df1 = pd.read_csv(os.path.join(FOLDER_PATH,'df.csv'))
 cosine_sim = np.load(os.path.join(FOLDER_PATH,'test.npy'))
 
 
+list_of_all_titles = df1['title'].tolist()
+list_of_all_titles = [str(x) for x in list_of_all_titles]
 
 def get_recommendations(title, cosine_sim=cosine_sim):
     # Get the index of the movie that matches the title
     # idx = indices[title]
-    list_of_all_titles = df1['title'].tolist()
+    
     closest_match = difflib.get_close_matches(title,list_of_all_titles)[0]
 
     idx = df1.index[df1['title']==closest_match].tolist()[0]

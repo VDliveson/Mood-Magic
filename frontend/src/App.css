@@ -1,5 +1,12 @@
+
+@import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+
+                
+
 .App {
   text-align: center;
+  font-family: 'SF Pro Display', sans-serif;
+                                                
 }
 
 
@@ -36,4 +43,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.movieComponent:hover
+{
+  transform:scale(1.05);
+  transition: ease-in-out 0.1s;
+}
+
+.movieComponent
+{
+  transition: ease-in-out 0.2s;
 }
