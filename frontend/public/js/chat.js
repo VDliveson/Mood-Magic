@@ -13,21 +13,6 @@ function collapse() {
   }
 }
 
-// var coll = document.getElementsByClassName("collapsible");
-
-// for (let i = 0; i < coll.length; i++) {
-//   coll[i].addEventListener("click", function () {
-//     this.classList.toggle("active");
-
-//     var content = this.nextElementSibling;
-
-//     if (content.style.maxHeight) {
-//       content.style.maxHeight = null;
-//     } else {
-//       content.style.maxHeight = content.scrollHeight + "px";
-//     }
-//   });
-// }
 
 function getTime() {
   let today = new Date();
@@ -106,20 +91,6 @@ function getResponse() {
     getHardResponse(userText);
   }, 1000);
 }
-
-// Handles sending text via button clicks
-// function buttonSendText(sampleText) {
-//     let userHtml = '<p class="userText"><span>' + sampleText + '</span></p>';
-
-//     $("#textInput").val("");
-//     $("#chatbox").append(userHtml);
-//     document.getElementById("chat-bar-bottom").scrollIntoView(true);
-
-//     // Uncomment this if you want the bot to respond to this buttonSendText event
-//     setTimeout(() => {
-//         getHardResponse(sampleText);
-//     }, 1000)
-// }
 
 function sendButton() {
   getResponse();

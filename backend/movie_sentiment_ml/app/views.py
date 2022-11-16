@@ -22,8 +22,6 @@ import requests
 
 API_KEY = "3112db6508f38d836229cb436cfd8e12"
 
-API_KEY = "3112db6508f38d836229cb436cfd8e12"
-
 # Create your views here.
 
 
@@ -105,7 +103,7 @@ class RegisterUserMood(viewsets.ModelViewSet):
     queryset = UserMood.objects.all()
     
     # lookup_field = "user_id"
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, *args, **kwargs):
         user_id = kwargs[self.lookup_field]
         user = UserMood.objects.filter(user_id=user_id).first()
         if not user:
@@ -184,7 +182,7 @@ def filter_genre_by_mood(mood):
         recommended_genre_list.append(get_genre_id('History'))
         recommended_genre_list.append(get_genre_id('Crime'))
     elif (mood == 'love'):
-        recommended_genre_list.append(get_genre_id('Love'))
+        recommended_genre_list.append(get_genre_id('Romance'))
     elif(mood == 'happiness'):
         recommended_genre_list.append(get_genre_id('Fantasy'))
         recommended_genre_list.append(get_genre_id('Thriller'))
@@ -213,6 +211,7 @@ class SentimentPredictorView(APIView):
                     res+=str(genre_list[i])
             data = {}
             data["genre"] = res;
+            
             return JsonResponse(data,status = status.HTTP_200_OK,safe = False)
         else:
             return JsonResponse({},status = status.HTTP_400_BAD_REQUEST,safe = False)
