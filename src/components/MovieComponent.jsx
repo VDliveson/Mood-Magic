@@ -1,4 +1,5 @@
-import React,{ useState, useEffect } from "react";
+import React from "react";
+// import { useState, useEffect } from "react"
 import Axios from "axios";
 import styled from "styled-components";
 import { API_KEY, url, auth_token } from "../App";
@@ -6,7 +7,7 @@ import { API_KEY, url, auth_token } from "../App";
 const MovieContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background:#272727;
+  background: #272727;
   padding: 10px;
   width: 280px;
   box-shadow: 0 3px 10px 0 #000;
@@ -61,7 +62,7 @@ function set_options(title) {
     method: "post",
     url: url + "recommend",
     headers: {
-      Authorization: "Bearer " + `${auth_token}`,
+      Authorization: `Bearer ${auth_token}`,
       Accept: "application/json",
       "Content-Type": "application/json",
     },
@@ -73,18 +74,18 @@ function set_options(title) {
   return options;
 }
 
-let adult_poster =
-  "http://www.movienewz.com/img/films/poster-holder.jpg";
+let adult_poster = "http://www.movienewz.com/img/films/poster-holder.jpg";
 const MovieComponent = (props) => {
   // const { Title, Year, imdbID, Type, Poster } = props.movie;
   const { poster_path, adult, release_date, id, title } = props.movie;
-  let poster = ""
-  if(poster_path){
+  let poster = "";
+  if (poster_path) {
     poster = "https://image.tmdb.org/t/p/w500/" + poster_path;
-  }else{
-    poster = "http://www.theprintworks.com/wp-content/themes/psBella/assets/img/film-poster-placeholder.png"
+  } else {
+    poster =
+      "http://www.theprintworks.com/wp-content/themes/psBella/assets/img/film-poster-placeholder.png";
   }
-  
+
   const Type = "movie";
 
   return (
@@ -93,20 +94,25 @@ const MovieComponent = (props) => {
         // props.onMovieSelect(imdbID);
         let options = set_options(title);
         let rec = [];
-        let response = await Axios(options);
-        if (response && response.status === 200) {
-          let ids = response.data.recommendations;
-
-          ids.map((id, index) => {
-            Axios.get(
-              `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
-            )
-              .then((response) => {
-                rec.push(response.data);
-              })
-              .catch((err) => {});
-          });
+        try{
+          let response = await Axios(options);
+          if (response && response.status === 200) {
+            let ids = response.data.recommendations;
+  
+            ids.map((id, index) =>
+              Axios.get(
+                `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+              )
+                .then((response) => {
+                  rec.push(response.data);
+                })
+                .catch((err) => {})
+            );
+          }
+        }catch(err){
+          console.log("Recommendation system error")
         }
+
 
         setTimeout(() => {
           props.getRecom(rec);
@@ -116,16 +122,13 @@ const MovieComponent = (props) => {
         setTimeout(() => {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }, 550);
-        
-        
-        // console.log(rec);
 
+        // console.log(rec);
 
         // console.log(props.currRec);
         // console.log(rec);
-        
       }}
-      className = "movieComponent"
+      className="movieComponent"
       // style = {boxStyle}
     >
       <AdultInfo>{adult ? "adult" : ""}</AdultInfo>

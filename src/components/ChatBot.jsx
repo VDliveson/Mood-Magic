@@ -12,7 +12,7 @@ import {
   simplify_emotion,
   get_mood_emoji,
   collapse,
-  getTime,
+  // getTime,
   firstBotMessage,
 } from "../helper/chat-helper";
 
@@ -95,7 +95,7 @@ const ChatBotComponent = (props) => {
 
   let prev = -1;
 
-  let emotion_list = [];
+  // let emotion_list = [];
 
   async function post_emotion(input) {
     let options = {
@@ -207,6 +207,7 @@ const ChatBotComponent = (props) => {
       console.error("Unable to update mood");
     }
   }
+  
 
 
   // var close = document.getElementsByClassName("closebtn");
@@ -241,7 +242,7 @@ const ChatBotComponent = (props) => {
       method: "get",
       url: url + "sentiment_recommend",
       headers: {
-        Authorization: "Bearer " + `${auth_token}`,
+        Authorization: `Bearer ${auth_token}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
@@ -285,7 +286,7 @@ const ChatBotComponent = (props) => {
             <div className="outer-container">
               <div className="chat-container">
                 <div id="chatbox">
-                  <h5 id="chat-timestamp"></h5>
+                  <h5 id="chat-timestamp"aria-hidden="true"></h5>
                   <p id="botStarterMessage" className="botText">
                     <span>Loading...</span>
                   </p>

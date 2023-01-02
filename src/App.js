@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 import styled from "styled-components";
 import MovieComponent from "./components/MovieComponent";
 import MovieInfoComponent from "./components/MovieInfoComponent";
 import ChatBotComponent from "./components/ChatBot";
 import "./App.css";
+import logo from './images/movie-icon.svg'
+import searchicon from './images/search-icon.png'
 
 // export const API_KEY = "47a4d46d";
 export const API_KEY = "3112db6508f38d836229cb436cfd8e12";
@@ -45,14 +47,14 @@ const SearchBox = styled.div`
   background-color: white;
 `;
 
-const TrendingButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  border-radius: 6px;
-  margin-right: 20px;
-  font-size: 16px;
-  cursor: pointer;
-`;
+// const TrendingButton = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   border-radius: 6px;
+//   margin-right: 20px;
+//   font-size: 16px;
+//   cursor: pointer;
+// `;
 
 const SearchIcon = styled.img`
   width: 32px;
@@ -108,7 +110,7 @@ const ComponentTitle = styled.h2`
 
 function App() {
   const [searchQuery, updateSearchQuery] = useState("");
-  const [Trending, ShowTrending] = useState(false);
+  // const [Trending, ShowTrending] = useState(false);
   const [movieList, updateMovieList] = useState([]);
   const [selectedMovie, onMovieSelect] = useState();
   const [recommended, getRecommendations] = useState([]);
@@ -184,7 +186,7 @@ function App() {
     <Container>
       <Header>
         <AppName>
-          <MovieImage src="./movie-icon.svg" />
+          <MovieImage src= {logo} />
           Movie App
         </AppName>
         {/* <TrendingButton
@@ -192,7 +194,7 @@ function App() {
           Trending
         </TrendingButton> */}
         <SearchBox>
-          <SearchIcon src="./search-icon.png" />
+          <SearchIcon src={searchicon} />
           <SearchInput
             placeholder="Search Movie"
             value={searchQuery}
