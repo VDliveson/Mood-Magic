@@ -10,7 +10,8 @@ import "./App.css";
 // export const API_KEY = "47a4d46d";
 export const API_KEY = "3112db6508f38d836229cb436cfd8e12";
 export const url = "http://127.0.0.1:8000/";
-export let auth_token = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4NjIzNjEyLCJpYXQiOjE2Njg1MzcyMTIsImp0aSI6IjlhYTJkMjM5NGNmMDQ4NWI4MGZjOGU4MjVhOWU4NzZkIiwidXNlcl9pZCI6MiwidXNlcm5hbWUiOiJkdiJ9.i92FJThSf4KzTON603QOWux00nFpu4ogfohgUej0Sfw`;
+export let auth_token = 
+`eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4NzYxNjI0LCJpYXQiOjE2Njg2NzUyMjQsImp0aSI6ImFmMjI3MmVmZDQxMDRlOTE4NzdmOTQ2YmMyYWMxZjFlIiwidXNlcl9pZCI6MiwidXNlcm5hbWUiOiJkdiJ9.fK4yqp1Q-Hse251gum6SMU8Gv1mHi5mgHvHsC-UaMzE`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
