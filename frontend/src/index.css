@@ -1,4 +1,4 @@
- 
+/*  
  @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
  body {
   margin: 0;
@@ -9,19 +9,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #141414;
-}
+} */
 
-
-html {
+html,body {
   scroll-behavior: smooth;
-  font-family: Helvetica, sans-serif, Arial;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
 body {
   background: #141414;
   margin: 0 auto;
   background-color: #222;
+
 }
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

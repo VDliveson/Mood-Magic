@@ -54,6 +54,7 @@ class Emotion_Predict(APIView):
     def post(self, request, *args, **kwargs):
 
         message = JSONParser().parse(request)['message']
+        print(message)
         if(message == ''):
             return JsonResponse(data = '',status = status.HTTP_404_NOT_FOUND,safe = False)
         try:

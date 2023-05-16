@@ -1,12 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useEffect, useState } from "react";
-import Axios from "axios";
-import { API_KEY } from "../App";
+import React, { useEffect, useState ,useContext} from "react";
 
+import MovieContext from "../context/movie/movieContext";
+import Axios from "axios";
+import { API_KEY,url } from "../App";
 import styled from "styled-components";
 
-const Container = styled.div`
+
+let auth_token = localStorage.getItem("auth_token");
+
+const MovieInfoContainer = styled.div`
   display: flex;
   margin-top: 100px;
   flex-direction: row;
@@ -79,6 +83,9 @@ function list_genre(genre_list) {
 
 function get_top_actors(cast) {
   let ans = "";
+  if (cast.length<5){
+    return ans;
+  }
   for (let i = 0; i < 5; i++) {
     if (i === 4) {
       ans += cast[i].name;
@@ -89,10 +96,26 @@ function get_top_actors(cast) {
   return ans;
 }
 
+
+
+
 const MovieInfoComponent = (props) => {
+  const context = useContext(MovieContext);
+  
+  const {
+    movieList,
+    updateMovieList,
+    selectedMovie,
+    onMovieSelect,
+    setTitle,
+    recommended,
+    getRecommendations,
+    setProgress,
+  } = context;
+
   const [movieInfo, setMovieInfo] = useState();
   const [movieCredits, setMovieCredits] = useState();
-  const { selectedMovie } = props;
+  // const { selectedMovie } = props;
 
   useEffect(() => {
     Axios.get(
@@ -108,41 +131,41 @@ const MovieInfoComponent = (props) => {
       .catch((err) => console.log(err));
   }, [selectedMovie]);
 
-  // useEffect(() => {
-  //   let options = {
-  //     method: "post",
-  //     url: url + "recommend",
-  //     headers: {
-  //       Authorization: "Bearer " + auth_token,
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     data: {
-  //       movie: movieInfo?.title,
-  //     },
-  //   };
+  useEffect(() => {
+    let options = {
+      method: "post",
+      url: url + "recommend",
+      headers: {
+        Authorization: "Bearer " + auth_token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: {
+        movie: movieInfo?.title,
+      },
+    };
 
-  //   if(movieInfo?.title){
-  //     Axios(options).then((response) =>{
-  //       let ids = response.data.recommendations;
-  //       let rec = [];
-  //       ids.map((id, index) => {
-  //         Axios.get(
-  //           `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
-  //         )
-  //           .then((response) => {
-  //             rec.push(response.data);
-  //           })
-  //           .catch((err) => console.log("cant find resource"));
-  //       });
-  //       props.getRecom(rec)
-  //       console.log(rec)
-  //     });
-  //   }
-  // }, [movieInfo]);
+    if(movieInfo?.title){
+      Axios(options).then((response) =>{
+        let ids = response.data.recommendations;
+        let rec = [];
+        ids.map((id, index) => {
+          Axios.get(
+            `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+          )
+            .then((response) => {
+              rec.push(response.data);
+            })
+            .catch((err) => console.log("cant find resource"));
+        });
+        getRecommendations(rec)
+        console.log(rec)
+      });
+    }
+  }, [movieInfo]);
 
   return (
-    <Container>
+    <MovieInfoContainer>
       {movieInfo && movieCredits ? (
         <>
           {/* <CoverImage src={movieInfo?.Poster} alt={movieInfo?.Title} /> */}
@@ -153,25 +176,25 @@ const MovieInfoComponent = (props) => {
 
           <InfoColumn>
             <MovieName>
-              {"movie"}: <span>{movieInfo?.title}</span>
+              {"movie"}: <span>{movieInfo.title?movieInfo.title:NaN}</span>
               {/* {movieInfo?.Type}: <span>{movieInfo?.title}</span> */}
             </MovieName>
             {/* <MovieInfo>
               IMDB Rating: <span>{movieInfo?.imdbRating}</span>
             </MovieInfo> */}
             <MovieInfo>
-              Year: <span>{get_year(movieInfo?.release_date)}</span>
+              Year: <span>{movieInfo.release_date?get_year(movieInfo.release_date):NaN}</span>
               {/* Year: <span>{movieInfo?.Year}</span> */}
             </MovieInfo>
             <MovieInfo>
-              Language: <span>{movieInfo?.original_language}</span>
+              Language: <span>{movieInfo?.original_language?movieInfo.original_language:NaN}</span>
               {/* Language: <span>{movieInfo?.Language}</span> */}
             </MovieInfo>
             {/* <MovieInfo>
               Rated: <span>{movieInfo?.Rated}</span>
             </MovieInfo> */}
             <MovieInfo>
-              Rated: <span>{movieInfo?.popularity}</span>
+              Rated: <span>{movieInfo?.popularity?movieInfo?.popularity:NaN}</span>
             </MovieInfo>
             {/* <MovieInfo>
               Released: <span>{movieInfo?.Released}</span>
@@ -181,13 +204,13 @@ const MovieInfoComponent = (props) => {
             </MovieInfo> */}
 
             <MovieInfo>
-              Runtime: <span>{movieInfo?.runtime} min</span>
+              Runtime: <span>{movieInfo?.runtime?movieInfo?.runtime:NaN} min</span>
             </MovieInfo>
             {/* <MovieInfo>
               Genre: <span>{movieInfo?.Genre}</span>
             </MovieInfo> */}
             <MovieInfo>
-              Genre: <span>{list_genre(movieInfo?.genres)}</span>
+              Genre: <span>{movieInfo?.genres?list_genre(movieInfo?.genres):NaN}</span>
             </MovieInfo>
             {/* <MovieInfo>
               Director: <span>{director}</span>
@@ -196,20 +219,21 @@ const MovieInfoComponent = (props) => {
               Director:{" "}
               <span>
                 {
+                  movieCredits?
                   movieCredits?.crew.filter(({ job }) => job === "Director")[0]
-                    .id
+                    .id:NaN
                 }
               </span>
             </MovieInfo>
             <MovieInfo>
-              Actors: <span>{get_top_actors(movieCredits?.cast)}</span>
+              Actors: <span>{movieCredits?.cast?get_top_actors(movieCredits?.cast):NaN}</span>
             </MovieInfo>
 
             {/* <MovieInfo>
               Actors: <span>{movieInfo?.Actors}</span>
             </MovieInfo> */}
             <MovieInfo>
-              Plot: <span>{movieInfo?.overview}</span>
+              Plot: <span>{movieInfo?.overview?movieInfo?.overview:NaN}</span>
             </MovieInfo>
             {/* <MovieInfo>
               Plot: <span>{movieInfo?.Plot}</span>
@@ -217,8 +241,8 @@ const MovieInfoComponent = (props) => {
           </InfoColumn>
           <Close
             onClick={() => {
-              props.onMovieSelect();
-              props.getRecom([])
+              onMovieSelect();
+              getRecommendations([])
             }}
           >
             X
@@ -227,7 +251,7 @@ const MovieInfoComponent = (props) => {
       ) : (
         "Loading..."
       )}
-    </Container>
+    </MovieInfoContainer>
   );
 };
 export default MovieInfoComponent;

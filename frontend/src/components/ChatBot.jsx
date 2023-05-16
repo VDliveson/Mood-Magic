@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Axios from "axios";
 import jwt_decode from "jwt-decode";
-import { API_KEY, url, auth_token } from "../App";
+import { API_KEY, url } from "../App";
 import "../css/chat.css";
+import MovieContext from "../context/movie/movieContext";
 
 import {
   eval_qs,
@@ -16,9 +17,11 @@ import {
   firstBotMessage,
 } from "../helper/chat-helper";
 
+let auth_token = localStorage.getItem("auth_token");
+
 const ChatBotComponent = (props) => {
   const [message, setMessage] = useState("");
-  
+
   let count = 0;
 
   // Retrieves the response
@@ -27,15 +30,15 @@ const ChatBotComponent = (props) => {
     let botLoader = '<p class="botTextLoader botText"><span></span></p>';
     let chatbox = document.getElementById("chatbox");
     let textInput = document.getElementById("textInput");
-    chatbox.innerHTML+=botLoader;
+    chatbox.innerHTML += botLoader;
     textInput.disabled = true;
 
     let { preset, ans } = await getBotResponse(userText);
 
-    let loaders = document.getElementsByClassName('botTextLoader')
-    for (let i=0;i<loaders.length;i++){
-      loaders[i].setAttribute('hidden', true)
-     }
+    let loaders = document.getElementsByClassName("botTextLoader");
+    for (let i = 0; i < loaders.length; i++) {
+      loaders[i].setAttribute("hidden", true);
+    }
 
     textInput.disabled = false;
 
@@ -67,7 +70,6 @@ const ChatBotComponent = (props) => {
     }, 1000);
   }
 
-
   function heartButton() {
     displayUserResponse("❤️");
 
@@ -78,7 +80,7 @@ const ChatBotComponent = (props) => {
     let chatbox = document.getElementById("chatbox");
     let botHtml = '<p class="botText"><span>' + text + "</span></p>";
     setTimeout(() => {
-      chatbox.innerHTML+=botHtml;
+      chatbox.innerHTML += botHtml;
     }, 1000);
     document.getElementById("chat-bar-bottom").scrollIntoView(true);
   }
@@ -88,8 +90,8 @@ const ChatBotComponent = (props) => {
     let chatbox = document.getElementById("chatbox");
     let userHtml = '<p class="userText"><span>' + text + "</span></p>";
 
-    textInput.value = ("");
-    chatbox.innerHTML+=userHtml;
+    textInput.value = "";
+    chatbox.innerHTML += userHtml;
     document.getElementById("chat-bar-bottom").scrollIntoView(true);
   }
 
@@ -151,6 +153,7 @@ const ChatBotComponent = (props) => {
       collapse();
       return { preset: null, ans: null };
     }
+
     let emotion = await post_emotion(input);
     emotion = simplify_emotion(emotion);
     if (emotion !== null) {
@@ -170,13 +173,12 @@ const ChatBotComponent = (props) => {
   function check_full_list(mood) {
     let moodmessage = get_mood_emoji(mood) + " " + mood;
     set_emotion(mood);
-  
+
     displayBotResponse(moodmessage);
     setTimeout(() => {
       collapse();
     }, 3000);
 
-    // }
   }
 
   async function set_emotion(mood) {
@@ -201,13 +203,12 @@ const ChatBotComponent = (props) => {
       let responseOK = await (response && response.status === 201);
 
       if (responseOK) {
-        sentiment_recommend()
+        sentiment_recommend();
       }
     } catch (err) {
       console.error("Unable to update mood");
     }
   }
-
 
   // var close = document.getElementsByClassName("closebtn");
   // var i;
@@ -246,28 +247,45 @@ const ChatBotComponent = (props) => {
         "Content-Type": "application/json",
       },
     };
+    
+    setProgress(20)
     const response = await Axios(options);
-
+    updateMovieList([]);
+    setProgress(40)
     if (response && response.status === 200) {
       let genrenames = response.data.genre;
       const res1 = await Axios.get(
         `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&with_genres=${genrenames}`
       );
-      
-      if(res1 && res1.status === 200){
-        let final_res = res1.data.results
-        console.log(final_res);
-        props.sentiment_recom(final_res);
+      setProgress(60)
+      if (res1 && res1.status === 200) {
+        let final_res = res1.data.results;
+        // console.log(final_res);
+        updateMovieList(final_res);
+        setTitle("Movies based on your mood")
+        setProgress(100)
       }
-      
     }
-  };
-
+  }
 
   useEffect(() => {
     collapse();
     firstBotMessage();
   }, []);
+
+  const context = useContext(MovieContext);
+  const {
+    movieList,
+    updateMovieList,
+    selectedMovie,
+    onMovieSelect,
+    title,
+    setTitle,
+    setProgress,
+    getTrending,
+    recommended,
+    getRecommendations,
+  } = context;
   return (
     <>
       <div className="chat-bar-collapsible">
@@ -311,14 +329,14 @@ const ChatBotComponent = (props) => {
                       id="chat-icon"
                       // style="color: crimson;"
                       className="fa fa-fw fa-heart"
-                      style={{color:"red"}}
+                      style={{ color: "red" }}
                       onClick={heartButton}
                     ></i>
                     <i
                       id="chat-icon"
                       // style="color: #333;"
                       className="fa fa-fw fa-send"
-                      style={{color:"black"}}
+                      style={{ color: "black" }}
                       onClick={getResponse}
                     ></i>
                   </div>
