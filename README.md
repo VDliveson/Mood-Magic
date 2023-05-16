@@ -6,7 +6,8 @@ This project is a combination of -
 
 * Model summary :
 
-![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/4e7fb66e-d809-494b-9f66-4be86658ddcb)
+
+![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/142e38f4-24a8-4987-b3ff-cc23688836f7)
 
 * List of emotions detected :
 
