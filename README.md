@@ -7,7 +7,7 @@ This project is a combination of -
 
 * Model summary :
 
-![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/142e38f4-24a8-4987-b3ff-cc23688836f7)
+![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/96cd5f79-eeec-4368-94b8-207717df8ff1)
 
 * List of emotions detected :
 
@@ -29,7 +29,12 @@ This project is a combination of -
 | 12    | worry       |
 
 
+* Model Evaluation
 
+![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/ba08adc9-841a-43ac-ae87-8b908e7c63bd)
+![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/4dba1bac-c76d-4d43-aae2-8e7722325669)
+
+* Model Accuracy : 37%
 
 ## 2) Cosine Similarity based Movie Recommendation System
 
