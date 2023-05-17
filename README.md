@@ -3,9 +3,9 @@
 This project is a combination of -
 
 ## 1) LSTM-based sentiment recommender chatbot trained on Twitter data
+* Dataset used - [Figure 8 labelled textual dataset](https://www.kaggle.com/datasets/manuelbenedicto/figure-eight-labelled-textual-dataset)
 
 * Model summary :
-
 
 ![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/142e38f4-24a8-4987-b3ff-cc23688836f7)
 
