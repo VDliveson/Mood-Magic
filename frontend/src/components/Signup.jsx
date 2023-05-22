@@ -1,94 +1,204 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link, to, useNavigate } from "react-router-dom";
+import Axios from "axios";
+import { url } from "../App";
 
 import "../css/signup.css";
 
 export default function Signup() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("auth_token")) {
+      navigate("/");
+    }
+  }, []);
+
+  const [credentials, setCredentials] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    dob: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
+
+  const onChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    console.log(credentials);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let data = {
+      username: credentials.username,
+      password: credentials.password,
+      password2: credentials.password2,
+      email: credentials.email,
+    };
+
+    if (credentials.firstName !== null) {
+      data.first_name = credentials.firstName;
+    }
+
+    if (credentials.lastName !== null) {
+      data.last_name = credentials.lastName;
+    }
+
+    if (credentials.dob !== null) {
+      data.dob = credentials.dob;
+    }
+
+    let token_data = await Axios({
+      method: "post",
+      url: url + "register",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+
+      data: data,
+    }).catch((error) => {});
+
+    let token_go = await (token_data && token_data.status === 201);
+
+    if (token_go) {
+      let access_token = token_data.data.token.access;
+      localStorage.setItem("auth_token", access_token);
+      navigate("/");
+    } else {
+      console.log("Invalid credentials");
+    }
+  };
   return (
     <>
-      <div className="signup-box">
-        <form>
-          <div className="mb-3">
-            <label htmlFor="firstName" className="form-label">
-              First Name
+      <div className="signup-container">
+        <div className="container">
+          <form
+            method="post"
+            className="sign-form"
+            id="sign-form"
+            autoComplete="on"
+            onSubmit={handleSubmit}
+          >
+            <h1 className="form-title">Sign Up</h1>
+
+            <label htmlFor="username">
+              Username<span className="star-required">*</span>
             </label>
             <input
-              name="firstName"
+              onChange={onChange}
+              className="signup-input"
               type="text"
-              className="form-control"
-              id="firstname"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="lastName" className="form-label">
-              Last Name
-            </label>
-            <input
-              name="lastName"
-              type="text"
-              className="form-control"
-              id="lastName"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email address
-            </label>
-            <input
-              name="email"
-              type="email"
-              className="form-control"
-              id="email"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="username" className="form-label">
-              Username
-            </label>
-            <input
               name="username"
-              type="text"
-              className="form-control"
               id="username"
-              aria-describedby="usernameHelp"
+              placeholder="Name"
+              autoFocus
+              required
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password1" className="form-label">
-              Password
+
+            <label htmlFor="firstName">First Name</label>
+            <input
+              onChange={onChange}
+              className="signup-input"
+              type="text"
+              name="firstName"
+              id="firstName"
+              placeholder="First Name"
+            />
+
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              onChange={onChange}
+              className="signup-input"
+              type="text"
+              name="lastName"
+              id="lastName"
+              placeholder="Last Name"
+            />
+
+            <label htmlFor="email">
+              Email<span className="star-required">*</span>
             </label>
             <input
-              name="password1"
+              onChange={onChange}
+              className="signup-input"
+              type="email"
+              name="email"
+              id="email"
+              placeholder="mail@website.com"
+              required
+            />
+
+            <label htmlFor="password">
+              Password<span className="star-required">*</span>
+            </label>
+            <input
+              onChange={onChange}
+              className="signup-input"
               type="password"
-              className="form-control"
-              id="password1"
+              name="password"
+              id="password"
+              placeholder="Min. 8 character"
+              required
+              minLength={8}
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password2" className="form-label">
-              Confirm Password
+
+            <label htmlFor="password2">
+              Confirm Password<span className="star-required">*</span>
             </label>
             <input
+              onChange={onChange}
+              className="signup-input"
+              type="password"
               name="password2"
-              type="password"
-              className="form-control"
               id="password2"
+              placeholder="Min. 8 character"
+              required
+              minLength={8}
             />
-          </div>
 
-          <div className="mb-3">
-            <label htmlFor="dob" className="form-label">
-              DOB
-            </label>
-            <input name="dob" type="date" className="form-control" id="dob" />
-          </div>
+            <label htmlFor="dob">DOB</label>
+            <input
+              onChange={onChange}
+              className="signup-input"
+              type="date"
+              name="dob"
+              id="dob"
+              placeholder="Enter your Date of Birth"
+            />
 
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+            <br />
+
+            <input
+              onChange={onChange}
+              className="signup-input"
+              type="checkbox"
+              name="terms-agree"
+              id="terms-agree"
+              required
+            />
+            <p className="sentence-agree">
+              I agree to the{" "}
+              <a className="a-tag" href="" required>
+                Terms & Conditions
+              </a>
+            </p>
+
+            <input
+              className="signup-input"
+              type="submit"
+              value="Sign Up"
+              id="submit"
+            />
+
+            <p className="have-account-line">
+              Already have an Account? <Link to="/login">Sign in</Link>
+            </p>
+          </form>
+        </div>
       </div>
     </>
   );

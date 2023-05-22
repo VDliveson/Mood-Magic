@@ -26,7 +26,7 @@ urlpatterns = [
     # path('login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login', views.MyObtainTokenPairView.as_view(), name='login'),
     path('login/refresh', TokenRefreshView.as_view(), name='login_refresh'),
-  
+    path('user', views.GetUserData.as_view(), name='get_user'),
     path('mood',set_mood, name='set_mood'),
     path('mood/<int:pk>/',get_mood,name='get_mood'),
     # path('get_movie/<int:pk>/',get_movie,name='get_movie'),

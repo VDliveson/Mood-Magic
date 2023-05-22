@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import MovieContext from "./movieContext";
-import { API_KEY } from "../../App";
+import { API_KEY,url } from "../../App";
 import Axios from "axios";
 
 
@@ -11,7 +11,7 @@ const MovieProvider = (props) => {
     const [progress, setProgress] = useState(0);
     const [searchQuery, updateSearchQuery] = useState("");
     const [recommended, getRecommendations] = useState([]);
-
+    const [userData,fetchUserData] = useState({});
     const fetchData = async (searchString) => {
       setProgress(progress + 20);
       const response = await Axios.get(
@@ -20,8 +20,31 @@ const MovieProvider = (props) => {
       updateMovieList(response.data.results);
       setProgress(100);
     };
-  
 
+    let auth_token = localStorage.getItem('auth_token');
+  
+    const getUserData = async (e) =>{
+      let options = {
+        method: "get",
+        url: url + "user",
+        headers: {
+          Authorization: "Bearer " + auth_token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      };
+  
+      let response = await Axios(options).catch((err) =>{
+        console.error(err);
+      });
+  
+      let responseOK = (response && response.status === 200);
+  
+      if (responseOK) {
+        console.log(response)
+        fetchUserData(response.data);
+      }
+    }
 
     const getTrending = async (e) => {
       onMovieSelect("");
@@ -36,7 +59,8 @@ const MovieProvider = (props) => {
     };
 
     useEffect(() => {
-      getTrending()
+      getTrending();
+      getUserData();
     }, [])
     
     return (
@@ -55,7 +79,8 @@ const MovieProvider = (props) => {
           getTrending,
           recommended,
           getRecommendations,
-          fetchData
+          fetchData,
+          userData
         }}
       >
         {props.children}

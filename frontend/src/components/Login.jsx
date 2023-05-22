@@ -3,6 +3,7 @@ import "../css/login.css";
 import { Link, to, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { url } from "../App";
+import Alert from "./Alert";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function Login() {
     password: "",
   });
 
+  const [alerton,setAlert] = useState(false);
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
     // console.log(e.target.name);
@@ -45,11 +47,14 @@ export default function Login() {
       localStorage.setItem("auth_token", access_token);
       navigate("/");
     } else {
+      setAlert(true);
       console.log("Invalid credentials");
     }
   };
 
   return (
+    <>
+    {alerton && <Alert title="Error" description="Invalid credentials"></Alert>}
     <div className="loginContainer">
       <div className="login">
         <h1>Login</h1>
@@ -89,5 +94,6 @@ export default function Login() {
         </form>
       </div>
     </div>
+    </>
   );
 }

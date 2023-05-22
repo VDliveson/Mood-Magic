@@ -4,6 +4,7 @@ from keras.utils import pad_sequences
 from keras.models import load_model
 from keras.preprocessing.text import tokenizer_from_json
 import json
+import numpy as np
 import os
 
 from silence_tensorflow import silence_tensorflow
@@ -38,14 +39,9 @@ def get_emotion_from_text(text):
 
 
     emo = model.predict(test_data,verbose=0)
-    g = emo[0][0]
-    index = 0
-    for i in range(1,len(label_dict)):
-        if emo[0][i] > g:
-            g = emo[0][i]
-            index = i
+    index = np.argmax(emo)
     return label_dict[index]
 
 
-# text = "I feel joy"
-# get_emotion_from_text(text)
+text = "I feel happy"
+print(get_emotion_from_text(text))

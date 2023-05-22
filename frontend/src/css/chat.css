@@ -202,11 +202,9 @@
 }
 
 /* The alert message box */
+
 .alert {
-  padding: 20px;
-  background-color: #f44336; /* Red */
-  color: white;
-  margin-bottom: 15px;
+  margin: 0;
 }
 
 .success {
@@ -336,4 +334,16 @@
   overflow: hidden;
   text-transform: capitalize;
   text-overflow: ellipsis;
+}
+
+.userName{
+  height: 100%;
+  /* background: rgba(255, 7, 7, 0.603); */
+  background-color: #2a2a72;
+background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+/* background-color: #3f0d12;
+background-image :linear-gradient(315deg, #3f0d12 0%, #a71d31 74%); */
+  /* font-weight: bold; */
+  color: rgb(249, 249, 249);
+  border-radius: 10%;
 }

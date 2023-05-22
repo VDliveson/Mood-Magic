@@ -19,3 +19,4 @@ class UserMood(models.Model):
     mood_id = models.AutoField(primary_key = True) 
     user_id = models.OneToOneField(AppUser,on_delete = models.CASCADE)
     current_mood = models.CharField(max_length= 511)
+    set_time = models.DateTimeField(auto_now_add=True)

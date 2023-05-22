@@ -12,7 +12,6 @@ const NavBar = (props) => {
     onMovieSelect,
     title,
     setTitle,
-    recommended,
     getRecommendations,
     searchQuery,
     updateSearchQuery,
@@ -20,6 +19,7 @@ const NavBar = (props) => {
     progress,
     setProgress,
     fetchData,
+    userData
   } = context;
 
   const [timeoutId, updateTimeoutId] = useState();
@@ -53,10 +53,10 @@ const NavBar = (props) => {
   return (
     <nav className="navbar navbar-expand-lg bg-black" data-bs-theme="dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <a className="navbar-brand" href="/">
           <img src="../movie-icon.svg" alt="" width="30" height="24" />
           MoodMagic
-        </Link>
+        </a>
         <button
           className="navbar-toggler"
           type="button"
@@ -80,6 +80,7 @@ const NavBar = (props) => {
                 Logout
               </a>
             </li>
+
             {/* <li className="nav-item">
               <Link className="nav-link" to="/signup">
                 Signup
@@ -101,6 +102,9 @@ const NavBar = (props) => {
                 style={{background:"white",color:"black"}}
               />
             </div>
+            <a className="nav-link userName"  href = "" >
+                <bold>{userData.username}</bold>
+              </a>
           </ul>
         </div>
       </div>

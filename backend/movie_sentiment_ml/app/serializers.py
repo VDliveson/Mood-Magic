@@ -23,7 +23,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     
     def create(self,validated_data):
         try :
-            dobval = validated_data.get['dob']# type: ignore
+            dobval = validated_data.get('dob', None)
         except:
             dobval = None
         user = AppUser(

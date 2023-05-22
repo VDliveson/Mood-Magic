@@ -19,6 +19,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
 from .serializers import MyTokenObtainPairSerializer
 import requests
+import json
 
 API_KEY = "3112db6508f38d836229cb436cfd8e12"
 
@@ -39,6 +40,7 @@ class ApiRoot(generics.GenericAPIView):
             'mood/<int:pk>': reverse('get_mood',kwargs={"pk": 2},request = request),
             'recommend':reverse('get_recommendations',request = request),
             'sentiment_recommend':reverse('sentiment_recommend',request = request),
+            'user':reverse('get_user',request = request),
             })    
         
     
@@ -201,7 +203,7 @@ class SentimentPredictorView(APIView):
     def get(self, request, *args, **kwargs):
         id = request.user.id 
         mood = UserMood.objects.filter(user_id=id).first()
-        mood = mood.current_mood
+        mood = mood.current_mood #type: ignore
         genre_list = filter_genre_by_mood(mood)
         res = ""
         if(genre_list!=[]):
@@ -223,10 +225,28 @@ class SentimentPredictorView(APIView):
             
             
             
+class GetUserData(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        id = request.user.id
+        user = AppUser.objects.get(id=id)
+        if not user:
+                return JsonResponse({'error': "No such user found!"},status = status.HTTP_404_NOT_FOUND)
+        else:
+            user_moods = UserMood.objects.filter(user_id=id)
+            mood_list = []
+            for item in user_moods:
+                current_mood = item.current_mood
+                set_time = item.set_time
+                mood_list.append({"current_mood":current_mood, "set_time":str(set_time)})
+            print(mood_list)
+            print(user.username)
+            print(user.first_name)
+            data = {"username":user.username,
+                    "first_name":user.first_name,
+                    "last_name":user.last_name,
+                    "mood_list":json.dumps(mood_list),
+                    }
+            return JsonResponse(data,status = status.HTTP_200_OK,safe = False)
             
-                
-        
-    
-    # def post(self, request, *args, **kwargs):
-        
         
