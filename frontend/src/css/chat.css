@@ -346,4 +346,6 @@ background-image :linear-gradient(315deg, #3f0d12 0%, #a71d31 74%); */
   /* font-weight: bold; */
   color: rgb(249, 249, 249);
   border-radius: 10%;
+  width: fit-content;
+  padding: 10px;
 }

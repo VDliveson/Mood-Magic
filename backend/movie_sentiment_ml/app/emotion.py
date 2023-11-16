@@ -22,6 +22,8 @@ def get_emotion_from_text(text):
     #filename = 'lstm_isear_model.h5'
     one_directory_up_path = os.path.dirname(os.path.dirname( __file__ ))
     model_path = os.path.join(one_directory_up_path, 'lstm_model')
+    current_folder_path = os.path.dirname(__file__)
+    tokenizer_path = os.path.join(current_folder_path,'tokenizer.json')
     # model_path = r'D:\Django projects\Movie_recommender_ml\lstm_model'
     model = load_model(model_path)
 
@@ -37,11 +39,10 @@ def get_emotion_from_text(text):
     sequences = tokenizer.texts_to_sequences(texts = test_sentence)
     test_data = pad_sequences(sequences, maxlen=100)
 
-
     emo = model.predict(test_data,verbose=0)
     index = np.argmax(emo)
     return label_dict[index]
 
 
-text = "I feel happy"
-print(get_emotion_from_text(text))
+# text = "I feel happy"
+# print(get_emotion_from_text(text))

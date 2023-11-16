@@ -38,7 +38,7 @@ function set_options(title) {
   return options;
 }
 
-let adult_poster = "http://www.movienewz.com/img/films/poster-holder.jpg";
+let adult_poster = "https://loeildelaphotographie.com/wp-content/uploads/2017/09/I-WANT-YOU.jpeg";
 const MovieComponent = (props) => {
   // const { Title, Year, imdbID, Type, Poster } = props.movie;
   const { poster_path, adult, release_date, id, title } = props.movie;
@@ -47,7 +47,7 @@ const MovieComponent = (props) => {
     poster = "https://image.tmdb.org/t/p/w500/" + poster_path;
   } else {
     poster =
-      "http://www.theprintworks.com/wp-content/themes/psBella/assets/img/film-poster-placeholder.png";
+      "https://www.prokerala.com/movies/assets/img/no-poster-available.jpg";
   }
 
   const Type = "movie";

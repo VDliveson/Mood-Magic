@@ -94,6 +94,7 @@ class Register(APIView):
                 }
         else:
             data = serializer.errors
+            print(data)
             return JsonResponse(data,status = status.HTTP_400_BAD_REQUEST)
         return JsonResponse(data,status=status.HTTP_201_CREATED)
         

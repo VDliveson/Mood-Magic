@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    container_name: frontend
+    volumes:
+      - .:/frontend
+    ports:
+      - "3000:3000"

@@ -3,6 +3,8 @@ import MovieContext from "./movieContext";
 import { API_KEY,url } from "../../App";
 import Axios from "axios";
 
+/* eslint-disable react-hooks/exhaustive-deps */
+
 
 const MovieProvider = (props) => {
     const [movieList, updateMovieList] = useState([]);
