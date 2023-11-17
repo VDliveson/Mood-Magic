@@ -45,7 +45,8 @@ This project is a combination of -
 * Cosine Similarity used to recommend movie IDs based on movie title
 
 ## Frameworks used
-The frontend has been developed in ```React JS``` & the backend consists of APIs made in ```Django Rest Framework``` & ```Python```
+The frontend has been developed in ```React JS``` & the backend consists of APIs made in ```Django Rest Framework``` & ```Python```.
+The project has been dockerised and near deployment.
 
 ## Preview
 ![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/37432be8-b4ce-47a3-bc0f-50d995786f6d)
