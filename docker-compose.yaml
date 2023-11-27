@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "3000:3000"
+
+  backend:
+    build: ./backend/movie_sentiment_ml
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    container_name: movie_recommend
+    volumes:
+      - ./backend/movie_sentiment_ml:/movie_recommend
+    ports:
+      - "8000:8000"
