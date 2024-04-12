@@ -49,6 +49,9 @@ The frontend has been developed in ```React JS``` & the backend consists of APIs
 The project has been dockerised and near deployment.
 
 ## Preview
+
+https://cosmic-empanada-cfc5e2.netlify.app/ (Frontend only)
+
 ![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/37432be8-b4ce-47a3-bc0f-50d995786f6d)
 
 ![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/96dc80c6-9d73-4db1-874e-d6d1324397fa)
