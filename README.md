@@ -1,8 +1,13 @@
 # Sentiment based movie recommender system
 
-This project is a combination of -
+## High level architecture
 
-## 1) LSTM-based sentiment recommender chatbot trained on Twitter data
+![image](https://github.com/VDliveson/Mood-Magic/assets/72307306/78032050-5739-42fc-92f1-d20d39870568)
+
+
+## Components
+
+### 1) LSTM-based sentiment recommender chatbot trained on Twitter data
 * Dataset used - [Figure 8 labelled textual dataset](https://www.kaggle.com/datasets/manuelbenedicto/figure-eight-labelled-textual-dataset)
 
 * Model summary :
@@ -36,7 +41,7 @@ This project is a combination of -
 
 * Model Accuracy : 37%
 
-## 2) Cosine Similarity based Movie Recommendation System
+### 2) Cosine Similarity based Movie Recommendation System
 
 ![image](https://github.com/VDliveson/react-movie-frontend-ml/assets/72307306/d7e5f410-71ae-4f74-b307-28780e48ea3d)
 
